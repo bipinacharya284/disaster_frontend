@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Spinner } from "@chakra-ui/react"; // Import Spinner from Chakra UI
-import DynamicLineGraph from "../components/Graph";
+import DynamicLineGraph from "../../components/Graph";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
