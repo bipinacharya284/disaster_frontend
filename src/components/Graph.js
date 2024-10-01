@@ -32,7 +32,13 @@ const DynamicLineGraph = () => {
       if (startTime && endTime) {
         // Fetch data between a specific time range
         url = `${API_URL}/${sensorId}/between?start_time=${startTime}&end_time=${endTime}`;
-      } else {
+      } else if(startTime && !endTime) {
+        url = `${API_URL}/${sensorId}/between?start_time=${startTime}`;
+      } 
+      else if (!startTime && endTime) {
+        url = `${API_URL}/${sensorId}/between?end_time=${endTime}`;
+      }
+      else {
         // Fetch all data if no time range is specified
         url = `${API_URL}/${sensorId}`;
       }
@@ -122,7 +128,7 @@ const DynamicLineGraph = () => {
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
           placeholder="Start Date"
-          style={{ maxWidth: 200 }}
+          style={{ maxWidth: 300 }}
           marginRight="1rem"
         />
         <Text>End at: </Text>
@@ -130,7 +136,7 @@ const DynamicLineGraph = () => {
           type="datetime-local"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
-          style={{ maxWidth: 200 }}
+          style={{ maxWidth: 300 }}
           placeholder="End Date"
         />
       </div>
