@@ -1,70 +1,94 @@
-import React, { useEffect, useState } from "react";
-import { Box, Flex, Image, Text, Spinner } from "@chakra-ui/react";
-import image from "../assets/displayImage.ppm"; // Replace with actual image path
+import React from "react";
+import {
+  Box,
+  Heading,
+  SimpleGrid,
+  Text,
+  VStack,
+  Button,
+  Image,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+
+// Import icons from assets
+import landslideIcon from "../assets/landslide.png";
+import floodIcon from "../assets/flood.png";
+import bridgeIcon from "../assets/bridge.png";
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
-
-  // Simulate loading with a timeout
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false); // Set loading to false after 2 seconds (for demo purposes)
-    }, 2000);
-
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
-  }, []);
+  // Define the conditions and their descriptions along with their respective links
+  const conditions = [
+    {
+      title: "Landslide",
+      description: "Watch for potential landslides in your area.",
+      link: "/landslide",
+      icon: landslideIcon, // Icon for Landslide
+    },
+    {
+      title: "Flood",
+      description: "Be alert for flooding conditions and evacuations.",
+      link: "/flood",
+      icon: floodIcon, // Icon for Flood
+    },
+    {
+      title: "Bridge Condition",
+      description: "Check the condition of nearby bridges regularly.",
+      link: "/bridge-condition",
+      icon: bridgeIcon, // Icon for Bridge Condition
+    },
+  ];
 
   return (
-    <Box p={8}>
-      {loading ? (
-        // Loading Spinner
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          height="100vh" // Full viewport height to center the spinner
-        >
-          <Spinner size="xl" color="blue.500" />
-        </Flex>
-      ) : (
-        // Main Content
-        <Flex
-          justifyContent="space-between"
-          alignItems="center"
-          direction={{ base: "column", md: "row" }}
-        >
-          {/* Left Side - Project Introduction */}
-          <Box flex={1} mr={{ base: 0, md: 8 }} mb={{ base: 8, md: 0 }}>
-            <Text fontSize="2xl" fontWeight="bold" mb={4}>
-              Disaster Early Warning System
-            </Text>
-            <Text fontSize="lg" mb={4}>
-              The Disaster Early Warning System is a project designed to alert
-              communities and authorities of potential hazards such as floods
-              and landslides. It combines hardware sensors with a web-based
-              monitoring system to provide real-time data on environmental
-              conditions, allowing for timely warnings and interventions.
-            </Text>
-            <Text fontSize="lg">
-              This system is designed with efficiency and accuracy in mind,
-              ensuring that the data collected is reliable and actionable.
-              Together, we aim to build a safer environment by leveraging
-              technology to prevent catastrophic outcomes.
-            </Text>
+    <Box p={5}>
+      <Heading as="h1" mb={6}>
+        Condition Monitoring
+      </Heading>
+      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5}>
+        {conditions.map((condition, index) => (
+          <Box
+            key={index}
+            borderWidth={1}
+            borderRadius="lg"
+            p={4}
+            shadow="md"
+            bg="white"
+            transition="transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease"
+            _hover={{
+              transform: "scale(1.05)",
+              bg: "gray.50",
+              boxShadow: "lg",
+            }}
+          >
+            <VStack spacing={4} align="start">
+              {/* Animated Icon */}
+              <Image
+                src={condition.icon}
+                alt={`${condition.title} icon`}
+                boxSize="60px"
+                transition="transform 0.3s ease"
+                _hover={{ transform: "scale(1.2)" }} // Bounce effect for icons
+              />
+              <Heading
+                size="md"
+                transition="color 0.3s ease"
+                _hover={{ color: "blue.500" }}
+              >
+                {condition.title}
+              </Heading>
+              <Text>{condition.description}</Text>
+              <Link to={condition.link}>
+                <Button
+                  colorScheme="blue"
+                  transition="transform 0.3s ease"
+                  _hover={{ transform: "scale(1.1)" }} // Button scaling effect
+                >
+                  View Details
+                </Button>
+              </Link>
+            </VStack>
           </Box>
-
-          {/* Right Side - Project Hardware Image */}
-          <Box flex={1}>
-            <Image
-              src={image}
-              alt="Project Hardware"
-              borderRadius="md"
-              boxShadow="lg"
-              objectFit="cover"
-              maxHeight="400px"
-            />
-          </Box>
-        </Flex>
-      )}
+        ))}
+      </SimpleGrid>
     </Box>
   );
 };
