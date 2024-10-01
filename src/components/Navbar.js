@@ -14,19 +14,21 @@ import { Link as RouterLink } from "react-router-dom"; // Import Link from react
 const Links = ["Home", "Dashboard"];
 
 const NavLink = ({ children }) => (
-  <Text fontSize="xl" color="white">
-    {/* Use react-router-dom's Link (RouterLink) for routing */}
-    <RouterLink
-      to={`/${children.toLowerCase()}`}
-      style={{
-        padding: "1rem",
-        textDecoration: "none",
-        color: "white",
-      }}
-    >
-      {children}
-    </RouterLink>
-  </Text>
+  <Box
+    as={RouterLink}
+    to={`/${children.toLowerCase()}`}
+    px={4}
+    py={2}
+    borderRadius="md"
+    _hover={{
+      bg: "gray.200", // Background color on hover
+      color: "black", // Text color on hover
+    }}
+    textDecoration="none"
+    color="white"
+  >
+    <Text fontSize="xl">{children}</Text>
+  </Box>
 );
 
 const Navbar = () => {
