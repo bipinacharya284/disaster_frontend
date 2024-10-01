@@ -32,13 +32,11 @@ const DynamicLineGraph = () => {
       if (startTime && endTime) {
         // Fetch data between a specific time range
         url = `${API_URL}/${sensorId}/between?start_time=${startTime}&end_time=${endTime}`;
-      } else if(startTime && !endTime) {
+      } else if (startTime && !endTime) {
         url = `${API_URL}/${sensorId}/between?start_time=${startTime}`;
-      } 
-      else if (!startTime && endTime) {
+      } else if (!startTime && endTime) {
         url = `${API_URL}/${sensorId}/between?end_time=${endTime}`;
-      }
-      else {
+      } else {
         // Fetch all data if no time range is specified
         url = `${API_URL}/${sensorId}`;
       }
@@ -95,7 +93,7 @@ const DynamicLineGraph = () => {
     };
 
     // Set fetch interval to 5 seconds
-    const interval = setInterval(fetchInterval, 5000);
+    const interval = setInterval(fetchInterval, 500);
 
     // Fetch immediately if no filters are applied
     fetchAllSensorsData();
@@ -153,7 +151,7 @@ const DynamicLineGraph = () => {
         ))}
       </ButtonGroup>
 
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" minHeight={400}>
         <LineChart
           data={sensorData}
           margin={{

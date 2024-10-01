@@ -3,32 +3,29 @@ import {
   Box,
   Flex,
   HStack,
-  Link,
   IconButton,
-  Button,
   useDisclosure,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
 
 const Links = ["Home", "Dashboard"];
 
 const NavLink = ({ children }) => (
-  <Text fontSize="2xl" color="white">
-    <Link
-      px={3}
-      py={4}
-      // rounded={"md"}
-      _hover={{
+  <Text fontSize="xl" color="white">
+    {/* Use react-router-dom's Link (RouterLink) for routing */}
+    <RouterLink
+      to={`/${children.toLowerCase()}`}
+      style={{
+        padding: "1rem",
         textDecoration: "none",
-        bg: "gray.200",
-        color: "black",
+        color: "white",
       }}
-      href={`#${children.toLowerCase()}`}
     >
       {children}
-    </Link>
+    </RouterLink>
   </Text>
 );
 
