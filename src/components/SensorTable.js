@@ -39,9 +39,7 @@ const SensorTable = () => {
       }
 
       const response = await axios.get(url);
-      const sortedData = response.data.data.sort(
-        (a, b) => new Date(b.received_at) - new Date(a.received_at)
-      );
+      const sortedData = response.data.data;
       setSensorData(sortedData);
     } catch (error) {
       console.error("Error fetching sensor data:", error);
