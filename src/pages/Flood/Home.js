@@ -10,7 +10,7 @@ const Flood = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false); // Set loading to false after 2 seconds (for demo purposes)
-    }, 2000);
+    });
 
     return () => clearTimeout(timer); // Cleanup the timer on unmount
   }, []);

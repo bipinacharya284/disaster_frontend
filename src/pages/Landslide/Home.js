@@ -10,7 +10,7 @@ const Landslide = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false); // Set loading to false after 2 seconds (for demo purposes)
-    }, 2000);
+    });
 
     return () => clearTimeout(timer); // Cleanup the timer on unmount
   }, []);
@@ -53,9 +53,14 @@ const Landslide = () => {
             </Text>
 
             {/* View Dashboard Button */}
-            <Link to="/landslide/dashboard">
+            <Link to="/landslide/graph">
               <Button colorScheme="blue" mt={4}>
-                View Dashboard
+                View Data Graph
+              </Button>
+            </Link>
+            <Link to="/landslide/table">
+              <Button colorScheme="blue" mt={4} ml={4}>
+                View Data Table
               </Button>
             </Link>
           </Box>
