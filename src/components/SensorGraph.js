@@ -12,6 +12,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Button, ButtonGroup, Input } from "@chakra-ui/react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 // API Endpoint for all sensors
 const API_URL = "http://192.168.7.80:8080/api/sensor-data";
@@ -96,6 +98,40 @@ const DynamicLineGraph = () => {
     return () => clearInterval(interval);
   }, [startDate, endDate]);
 
+  const saveGraphAsPDF = () => {
+    const graphElement = document.querySelector(
+      ".recharts-responsive-container"
+    );
+
+    html2canvas(graphElement, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("l", "mm", "a4"); // 'l' for landscape orientation
+
+      const pageHeight = pdf.internal.pageSize.height; // A4 page height in mm
+      const pageWidth = pdf.internal.pageSize.width; // A4 page width in mm
+      const imgWidth = pageWidth; // Full width of the page
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+      // const imgHeight = 200;
+
+      let heightLeft = imgHeight;
+      let position = 0; // Start position from the top
+
+      // Add the first image
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight; // Subtract the height of the page
+
+      // Add subsequent pages if needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight; // Calculate the position for the next page
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight; // Subtract the height of the page
+      }
+
+      pdf.save("sensor-data-graph.pdf");
+    });
+  };
+
   const toggleSensor = (sensorId) => {
     setVisibleSensors((prev) => ({
       ...prev,
@@ -138,13 +174,18 @@ const DynamicLineGraph = () => {
             key={sensorId}
             onClick={() => toggleSensor(sensorId)}
             colorScheme={visibleSensors[sensorId] ? "blue" : "gray"}
+            bg={visibleSensors[sensorId] ? "blue.500" : "gray.200"}
+            color={visibleSensors[sensorId] ? "white" : "black"}
+            _hover={{ bg: visibleSensors[sensorId] ? "blue.400" : "gray.300" }}
+            _active={{ bg: visibleSensors[sensorId] ? "blue.600" : "gray.400" }}
           >
-            Sensor {sensorId} {visibleSensors[sensorId] ? "Hide" : "Show"}
+            Sensor {sensorId}
           </Button>
         ))}
+        <Button onClick={saveGraphAsPDF}>Save as PDF</Button>
       </ButtonGroup>
 
-      <ResponsiveContainer width="100%" minHeight={400}>
+      <ResponsiveContainer width="100%" minHeight={550}>
         <LineChart
           data={sensorData}
           margin={{

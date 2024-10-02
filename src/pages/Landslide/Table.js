@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, Spinner } from "@chakra-ui/react"; // Import Spinner from Chakra UI
-import DynamicLineGraph from "../../components/Graph";
+import SensorTable from "../../components/SensorTable";
 
-const Dashboard = () => {
+const Table = () => {
   const [loading, setLoading] = useState(true);
 
   // Simulate loading with a timeout
@@ -27,11 +27,18 @@ const Dashboard = () => {
           <Spinner size="xl" color="blue.500" />
         </Box>
       ) : (
-        // Main Content - Dynamic Line Graph
-        <DynamicLineGraph />
+        // Scrollable SensorTable with fixed height
+        // <Box
+        //   maxH="600px" // Set maximum height for the table container
+        //   overflowY="auto" // Enable vertical scroll
+        //   border="1px solid gray" // Add a border to define the table area
+        //   padding="1rem"
+        // >
+        <SensorTable />
+        // </Box>
       )}
     </Box>
   );
 };
 
-export default Dashboard;
+export default Table;
